@@ -3,7 +3,7 @@ const { Spanner } = require('@google-cloud/spanner');
 const config = {
     project_id: 'fair-bearing-332523',
     instancia_id: 'aerolineadba',
-    database_id: 'proyectofinaldba',
+    database_id: 'basesavanzadasaerolineas',
 }
 
 const getColumns = (table) => {
@@ -132,43 +132,27 @@ async function deleteData(instanceId, databaseId, projectId, tableName, ids) {
     } catch (err) {
         console.error('ERROR:', err);
     }
-
-    // database.runTransaction(async (err, transaction) => {
-    //     if (err) {
-    //         console.error(err);
-    //         return;
-    //     }
-    //     try {
-    //         const [rowCount] = await transaction.runUpdate({
-    //             sql: 'DELETE FROM Singers WHERE true',
-    //         });
-    //         console.log(`${rowCount} records deleted from Singers.`);
-    //         await transaction.commit();
-    //     } catch (err) {
-    //         console.error('ERROR:', err);
-    //     } finally {
-    //         // Close the database when finished.
-    //         await database.close();
-    //     }
-    // });
 }
 
-// bjson = require('../config/booking.json');
-// fjson = require('../config/flight.json');
+
 // pjson = require('../config/passenger.json');
+// fjson = require('../config/flight.json');
+// bjson = require('../config/booking.json');
+bdjson = require('../config/bookingdetails.json');
+bjson = require('../config/booking.json');
 
-// pjson = [
-//     {shardid:1,passid:1,passname:"Nathan Whitney",passemail:"ultricies@icloud.org",passdob:"2022-10-08"}
-// ]
+fjson = [
+    {"flightid":3,"flightsource":"Oklahoma","flightdest":"California","flightdete":"2021-11-03","flightseat":93,"ticketcost":4677.0}
+]
 
-/*
-insertData(config.instancia_id, config.database_id, config.project_id, 'passenger', pjson);
-*/
 
-/*
-readData(config.instancia_id, config.database_id, config.project_id, 'passenger');
-*/
+// insertData(config.instancia_id, config.database_id, config.project_id, 'passenger', pjson);
+//insertData(config.instancia_id, config.database_id, config.project_id, 'flight', fjson);
+//insertData(config.instancia_id, config.database_id, config.project_id, 'bookingdetails', bdjson);
+//insertData(config.instancia_id, config.database_id, config.project_id, 'booking', bjson);
 
+// readData(config.instancia_id, config.database_id, config.project_id, 'passenger');
+// readData(config.instancia_id, config.database_id, conf);
 // queryData(config.instancia_id, config.database_id, config.project_id, 'passenger', 'passid', 1);
 
 // update = [{
@@ -178,9 +162,6 @@ readData(config.instancia_id, config.database_id, config.project_id, 'passenger'
 //     passemail: 'jeffgapra@espol.edu',
 //     passdob: "2023-12-12"
 // }]
-
 // updateData(config.instancia_id, config.database_id, config.project_id, 'passenger', update);
 
 // deleteData(config.instancia_id, config.database_id, config.project_id, 'passenger', [[1,1]]);
-
-// readData(config.instancia_id, config.database_id, config.project_id, 'passenger');
