@@ -1,40 +1,49 @@
-<%- include("template/header", {title: ''}); %>
+
+<%- include("templates/header", {title: title}); %>
 <body>
-  <% var id = title !== 'New' ? data._id : '' %>
-  <form action="" method="post">
+  <% var id = title !== 'New' ? data.passid : '' %>
+  <form action="/table/passenger/<%= id %>" method="post">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <div>
-        <a class="btn bg-transparent align-baseline" data-original-title="Volver" href="#" onClick="history.go(-1)"><i class="fas fa-angle-left fa-2x"></i></a>
+        <a class="btn bg-transparent align-baseline" data-original-title="Volver" onClick="history.go(-1)"><i class="fas fa-angle-left fa-2x"></i></a>
         <h1><%= title %></h1>
       </div>
       <div class="btn-toolbar mb-2 mb-md-1">
-        <button type="submit" class="btn btn-primary mx-2">Guardar <i class="far fa-save"></i></button>
-          
-        <% if(title !== 'New') { %>
-        <a class="btn btn-danger align-baseline" href="">Eliminar <i class="far fa-trash-alt"></i></a>
-           <button type="button" class="btn btn-danger">Eliminar <i class="far fa-trash-alt"></i></button> 
-        <% } %>
-        
+        <button type="submit" class="btn btn-primary mx-2">Guardar <i class="far fa-save"></i></button>      
       </div>
     </div>
 
     <div class="container-fluid form-container">
       <div class="row">
+        <div class="row">
+            <div class="col">
+              <label for="id" class="form-label">Id</label>
+              <input type="text" placeholder="Nombre" class="form-control" name="passid" value="<%= title !== 'New' ? data.passid : '' %>" readonly>
+          </div>
+          </div>
           <div class="row">
             <div class="col">
-              <label for="area_title" class="form-label">Name</label>
+              <label for="sharedid" class="form-label">Shared id</label>
+              <input type="text" placeholder="Nombre" class="form-control" name="shardid" value="<%= title !== 'New' ? data.shardid : '' %>" readonly>
+          </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label for="name" class="form-label">Name</label>
               <input type="text" placeholder="Nombre" class="form-control" name="passname" value="<%= title !== 'New' ? data.passname : '' %>" required>
           </div>
           </div>
           
           <div class="row">
             <div class="col">
-              <label for="industry_code" class="form-label">Email</label>
-              <input type="number" placeholder="0" min="0" class="form-control" name="email" value="<%= title !== 'New' ? data.passemail: '' %>" required>
+              <label for="email" class="form-label">Email</label>
+              <input type="text" placeholder="name@example.com" min="0" class="form-control" name="passemail" value="<%= title !== 'New' ? data.passemail: '' %>" required>
             </div>
+          </div>
+          <div class="row">
             <div class="col">
-              <label for="industry_title" class="form-label">Date</label>
-              <input type="text" placeholder="Date of birth" class="form-control" name="date" value="<%= title !== 'New' ? data.passdob : '' %>" required>
+                <label for="date" class="form-label">Date</label>
+                <input type="text" placeholder="YYYY-MM-DD" class="form-control" name="passdob" value="<%= title !== 'New' ? moment(data.passdob).utc().format('YYYY-MM-DD') : '' %>" required>
             </div>
           </div>
         </form>

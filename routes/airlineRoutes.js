@@ -12,7 +12,7 @@ router.get('/:table', airlineController.list);
 /*
  * GET
  */
-router.get('/:table/:id', airlineController.show);
+router.get('/:table/:tableId/:id', airlineController.show);
 
 /*
  * POST
@@ -27,6 +27,11 @@ router.post('/:table/:id', airlineController.update);
 /*
  * DELETE
  */
-router.get('/delete/:id', airlineController.remove);
+router.get('/:table/delete/:id/:shardid', airlineController.remove);
 
+
+router.get('/:table/new', function(req, res, next) {
+    res.render('detail', { title: 'New' });
+});
+  
 module.exports = router;

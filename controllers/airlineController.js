@@ -1,3 +1,4 @@
+var moment = require('moment');
 const { Spanner } = require('@google-cloud/spanner');
 
 const config = {
@@ -45,8 +46,10 @@ module.exports = {
             });
             const title = "Proyecto Segundo Parcial - Airline";
             const group = "Grupo #3: Evelyn Mejia y Jeffrey Prado";
+            lista.reverse();
             res.render('index', { list: lista,  
-                title: title, group: group 
+                title: title, group: group,
+                moment: moment 
             });
         } catch (err) {
             console.error('ERROR:', err);
@@ -65,27 +68,22 @@ module.exports = {
         const database = instance.database(config.database_id);
 
         var tableName = req.params.table;
-        var tableId = req.query.tableId;
+        var tableId = req.params.tableId;
         var id = req.params.id;
 
         const query = {
-            sql: 'SELECT * FROM ' + tableName + ' WHERE ' + tableId + ' = @searchId' ,
-            params: {
-                searchId: id,
-            }
+            sql: 'SELECT * FROM ' + tableName + ' WHERE ' + tableId + ' = ' + id,
         };
     
         try {
             var dato = [];
             const [rows] = await database.run(query);
-            // console.log(rows);
             rows.forEach(row => {
                 const json = row.toJSON();
                 dato.push(json);
-            });
-            console.log(dato);
-
-            res.render('detail', { data: dato, title: 'Detail' });
+            });  
+            console.log(dato[0]);
+            res.render('detail', { data: dato[0], title: 'Detail', moment: moment });
         } catch (err) {
             console.error('ERROR:', err);
         } finally {
@@ -104,12 +102,26 @@ module.exports = {
         var tableName = req.params.table;
         var json = req.body;
 
-        console.log(json);
-
         const tableN = database.table(tableName);
+
+        const query = {
+            sql: 'SELECT shardid, passid FROM ' + tableName + ' ORDER BY passid DESC LIMIT 1;'
+        };
         
 
         try {
+            var dato = [];
+            const [rows] = await database.run(query);
+            rows.forEach(row => {
+                const json = row.toJSON();
+                dato.push(json);
+            });  
+
+            json["shardid"] = dato[0].shardid + 1;
+            json["passid"] = dato[0].passid + 1;
+
+            console.log('creando', json);
+
             await tableN.insert(json);
             console.log('Inserted data.');
 
@@ -134,7 +146,7 @@ module.exports = {
         var tableName = req.params.table;
         var row = req.body;
 
-        console.log(row);
+        console.log('update',row);
     
         const tableN = database.table(tableName);
     
@@ -163,13 +175,27 @@ module.exports = {
 
         var tableName = req.params.table;
         var ids = req.params.id;
+        var shardid = req.params.shardid
+        var keys = [shardid,ids];
 
+        const query = {
+            sql: 'SELECT * FROM ' + 'bookingdetails' + ' WHERE passid = ' + ids + ';',
+        };
+        
+        const tableBooking = database.table('bookingdetails');
+
+        const [rows] = await database.run(query);
+
+        if (rows) {
+            const deleted = await tableBooking.deleteRows(rows);
+        }
+        
         const tableN = database.table(tableName);
 
         try {
             /* ids [[shardid, tableId] - [bookingid, passid] - [id]
                     [2, 3],]; */
-            await tableN.deleteRows(ids);
+            await tableN.deleteRows([keys]);
             console.log('Deleted individual rows in Albums.');
             var url = "/table/" + tableName;
             res.redirect(url);

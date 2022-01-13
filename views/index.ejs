@@ -9,13 +9,13 @@
       <%= group %>
     </p>
     <div class="btn-toolbar mb-2 mb-md-1">
-      <a class="btn btn-success mx-2" data-original-title="Nuevo Registro" href="new">Nuevo Registro <i class="fas fa-plus"></i></a>
+      <a class="btn btn-success mx-2" data-original-title="Nuevo Registro" href="/table/passenger/new">Nuevo Registro <i class="fas fa-plus"></i></a>
     </div>
   </div>
 
   <div class="container-fluid text-center">
     <div class="row">
-      <table class="table table-borderless employ-table">
+      <table class="table table-borderless">
         <thead class="table-dark">
           <tr>
             <th>Shard Id</th>
@@ -26,17 +26,17 @@
             <th colspan="1">Action</th>
           </tr>
         </thead>
-        <tbody id="robot-row">
+        <tbody>
           <% list.forEach(function(data){ %>
             <tr>
               <td><%= data.shardid %></td>
-              <td class="text-start"><%= data.passid %></td>
+              <td><%= data.passid %></td>
               <td class="text-start"><%= data.passname %></td>
               <td><%= data.passemail %></td>
-              <td><%= data.passdob %></td>
+              <td><%= moment(data.passdob).utc().format('YYYY-MM-DD') %></td>
               <td class="text-end" colspan="1">
-                <a class="btn btn-primary align-baseline" data-original-title="Editar" href="/table/passenger/<%= data.passid %>"><i class="far fa-edit"></i></a>
-                <a class="btn btn-danger align-baseline" data-original-title="Eliminar" href="/table/passenger/delete/<%= data.passid %>"><i class="far fa-trash-alt"></i></a>
+                <a class="btn btn-primary align-baseline" data-original-title="Editar" href="/table/passenger/passid/<%= data.passid %>"><i class="far fa-edit"></i></a>
+                <a class="btn btn-danger align-baseline" data-original-title="Eliminar" href="/table/passenger/delete/<%= data.passid %>/<%= data.shardid %>"><i class="far fa-trash-alt"></i></a>
               </td>
             </tr>
           <% }); %>

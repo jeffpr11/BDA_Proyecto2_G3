@@ -6,3 +6,47 @@ body {
 a {
   color: #00B7FF;
 }
+
+h1, h2 {
+  display: inline;
+}
+
+table th, table td {
+  vertical-align: middle;
+}
+
+table tbody tr:last-of-type {
+  border-bottom: 2px solid #212529ab;
+}
+
+table tbody tr:hover {
+  background-color: rgba(207, 207, 207, 0.329);
+}
+
+
+.form-container {
+  width: 75% !important;
+  height: auto;
+  margin-top: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: rgba(0, 0, 0, 0.16) 1px 1px 4px;
+}
+
+.form-container > .row {
+  width: 95%;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+
+.form-container > .row .row {
+  margin: .5rem 0;
+}
+
+.form-container > .row .row label {
+  font-weight: 600;
+}
+
+.form-container > .row .row input {
+  border-radius: 7px;
+  border: 1px solid #ccc;
+}

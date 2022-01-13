@@ -72,7 +72,7 @@ async function queryData(instanceId, databaseId, projectId, tableName, tableId, 
     });
     const instance = spanner.instance(instanceId);
     const database = instance.database(databaseId);
-
+    console.log('id',id)
     const query = {
         sql: 'SELECT * FROM ' + tableName + ' WHERE ' + tableId + ' = @searchId' ,
         params: {
